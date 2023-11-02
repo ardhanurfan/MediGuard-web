@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply font-poppins;
+  }
+}
+
+/* width */
+::-webkit-scrollbar {
+  @apply h-1 w-1 lg:w-2;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  @apply bg-disable;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply z-50 rounded-[5px] bg-kBlue-300;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-kBlue-300;
+}
