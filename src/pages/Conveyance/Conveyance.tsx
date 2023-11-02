@@ -68,8 +68,8 @@ function Conveyance() {
   ];
 
   return (
-    <div className="min-h-screen w-full bg-kBlue-100 pl-[240px] pt-16">
-      <div className="w-full p-6">
+    <div className="min-h-screen w-full bg-kBlue-100 xl:pl-[240px] pt-16 pl-0">
+      <div className="w-full xl:p-6 p-3">
         <div className="w-full bg-white rounded-xl p-6">
           <Table
             data={dataDummy}

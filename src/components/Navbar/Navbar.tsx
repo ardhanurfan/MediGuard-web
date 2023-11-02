@@ -24,8 +24,10 @@ function Navbar() {
   }, [path]);
 
   return (
-    <div className="fixed w-full bg-white h-16 pl-[304px] pr-6 flex items-center justify-between">
-      <h1 className="font-bold text-4xl text-kBlue-400">{title}</h1>
+    <div className="px-2 fixed w-full bg-white h-16 xl:pl-[304px] xl:pr-6 flex items-center justify-between">
+      <h1 className="font-bold xl:text-4xl text-kBlue-400 text-xl ml-12 xl:ml-0">
+        {title}
+      </h1>
       <div className="group relative">
         <div className="relative flex items-center">
           <img
@@ -34,8 +36,8 @@ function Navbar() {
             alt="Profile"
           />
           <div className="ml-3">
-            <p className="w-[120px] overflow-hidden text-ellipsis whitespace-nowrap text-[16px] font-bold text-kBlue-400">
-              {"Raka"}
+            <p className="w-[60px] md:w-[120px] overflow-hidden text-ellipsis whitespace-nowrap text-[16px] font-bold text-kBlue-400">
+              {"Raka ALannoo"}
             </p>
             <p className="text-[14px] text-kBlue-400">{"Admin"}</p>
           </div>

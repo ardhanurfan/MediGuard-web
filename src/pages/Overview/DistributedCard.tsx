@@ -8,7 +8,7 @@ function DistributedCard({
   unit: string;
 }) {
   return (
-    <div className="w-1/2 bg-white rounded-xl p-6 flex flex-col justify-center items-center">
+    <div className="w-full xl:w-1/2 bg-white rounded-xl p-6 flex flex-col justify-center items-center">
       <div className="flex justify-between w-full">
         <h3 className="text-[16px] font-medium text-kBlue-400">{title}</h3>
         <div className="py-1 px-2 rounded-full flex justify-center items-center gap-2 bg-kGreen-100">
