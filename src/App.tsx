@@ -12,6 +12,7 @@ import SideBar from "./components/SideBar/SideBar";
 import Navbar from "./components/Navbar/Navbar";
 import TaskList from "./pages/TaskList/TaskList";
 import Conveyance from "./pages/Conveyance/Conveyance";
+import Register from "./pages/Register/Register";
 
 const router = createBrowserRouter([{ path: "*", Component: Root }]);
 const ProtectedRoute = () => {
@@ -38,6 +39,7 @@ function Root() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="*" element={<NotFound />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Overview />} />

@@ -20,7 +20,7 @@ function Button({
         type={type}
         onClick={onClick}
         onSubmit={onSubmit}
-        className={`h-[28px] w-[160px] rounded-[4px] text-12 md:h-[32px] md:w-[200px] bg-kBlue-200 text-white hover:bg-kBlue-300 active:bg-kBlue-400`}
+        className="h-[32px] w-[160px] rounded-[4px] text-12 md:h-[40px] md:w-[200px] bg-kBlue-200 text-white hover:bg-kBlue-300 active:bg-kBlue-400"
       >
         {isLoading ? (
           <div className={`flex items-center justify-center`}>
