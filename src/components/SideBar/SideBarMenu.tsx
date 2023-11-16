@@ -7,15 +7,21 @@ function SideBarMenu({
   to,
   index,
   currIndex,
+  onClick,
 }: {
   children: React.ReactNode;
   title: string;
   to: string;
   index: number;
   currIndex: number;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement> | undefined;
 }) {
   return (
-    <Link className="w-full flex h-full hover:bg-slate-50 group" to={to}>
+    <Link
+      onClick={onClick}
+      className="w-full flex h-full hover:bg-slate-50 group"
+      to={to}
+    >
       <div
         className={`${
           index != currIndex ? "text-disable" : "text-kBlue-300"

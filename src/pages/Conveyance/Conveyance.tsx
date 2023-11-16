@@ -1,3 +1,5 @@
+import { useState } from "react";
+import Button from "../../components/Button/Button";
 import Table from "../../components/Table/Table";
 
 function Conveyance() {
@@ -67,10 +69,19 @@ function Conveyance() {
     },
   ];
 
+  const [showPopUp, setShowPopUp] = useState(false);
+
   return (
     <div className="min-h-screen w-full bg-kBlue-100 xl:pl-[240px] pt-16 pl-0">
       <div className="w-full xl:p-6 p-3">
         <div className="w-full bg-white rounded-xl p-6">
+          <div className="mb-6 flex justify-end">
+            <Button
+              text={"Add Mediguard"}
+              type={"button"}
+              onClick={() => setShowPopUp(true)}
+            />
+          </div>
           <Table
             data={dataDummy}
             column={[

@@ -139,7 +139,7 @@ function Overview() {
                     minValue={0}
                     maxValue={100}
                   />
-                  <h2 className="text-xl text-kBlue-400">Overall Kelembaban</h2>
+                  <h2 className="text-xl text-kBlue-400">Average Kelembaban</h2>
                   <h2 className="text-[40px] text-kBlue-400 font-bold">
                     3045 %
                   </h2>
@@ -173,7 +173,7 @@ function Overview() {
                     minValue={0}
                     maxValue={100}
                   />
-                  <h2 className="text-xl text-kBlue-400">Overall Suhu</h2>
+                  <h2 className="text-xl text-kBlue-400">Average Suhu</h2>
                   <h2 className="text-[40px] text-kBlue-400 font-bold">
                     187 °C
                   </h2>

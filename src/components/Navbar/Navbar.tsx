@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 
 function Navbar() {
+  const { user } = useContext(UserContext);
   const location = useLocation();
   const path = location.pathname;
   const [title, setTitle] = useState("");
@@ -31,15 +33,15 @@ function Navbar() {
       <div className="group relative">
         <div className="relative flex items-center">
           <img
-            src={`https://ui-avatars.com/api/?name=${"Raka"}&color=0F2341&background=33BDFE`}
+            src={`https://ui-avatars.com/api/?name=${user?.namaLengkap}&color=0F2341&background=33BDFE`}
             className="h-12 w-12 shrink-0 rounded-full bg-kGrey-100"
             alt="Profile"
           />
           <div className="ml-3">
             <p className="w-[60px] md:w-[120px] overflow-hidden text-ellipsis whitespace-nowrap text-[16px] font-bold text-kBlue-400">
-              {"Raka ALannoo"}
+              {user?.namaLengkap}
             </p>
-            <p className="text-[14px] text-kBlue-400">{"Admin"}</p>
+            <p className="text-[14px] text-kBlue-400">{user?.role}</p>
           </div>
         </div>
       </div>

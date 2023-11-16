@@ -1,4 +1,5 @@
 import {
+  Navigate,
   Outlet,
   Route,
   RouterProvider,
@@ -13,21 +14,23 @@ import Navbar from "./components/Navbar/Navbar";
 import TaskList from "./pages/TaskList/TaskList";
 import Conveyance from "./pages/Conveyance/Conveyance";
 import Register from "./pages/Register/Register";
+import Cookies from "js-cookie";
+import UserProvider from "./context/UserContext";
 
 const router = createBrowserRouter([{ path: "*", Component: Root }]);
 const ProtectedRoute = () => {
-  // const token = Cookies.get("access_token");
+  const token = Cookies.get("token_mediguard");
 
-  // if (!token) {
-  //   return <Navigate to="/login" replace />;
-  // }
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
-    <>
+    <UserProvider>
       <Navbar />
       <SideBar />
       <Outlet />
-    </>
+    </UserProvider>
   );
 };
 

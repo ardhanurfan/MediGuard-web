@@ -5,6 +5,7 @@ function Table({
   column,
   isLoading,
   onEdit,
+  onAssign,
   isEdit = true,
   type,
 }: {
@@ -12,6 +13,7 @@ function Table({
   column: any;
   isLoading: boolean;
   onEdit?: (x: number) => void | undefined;
+  onAssign?: (x: number) => void | undefined;
   isEdit?: boolean;
   type: "active" | "task" | "conveyance";
 }) {
@@ -123,6 +125,28 @@ function Table({
                             } text-[16px] font-semibold`}
                           >
                             {row}
+                          </td>
+                        );
+                      }
+                      if (
+                        Object.keys(obj)[idx].toLocaleLowerCase() ===
+                        "assignedto"
+                      ) {
+                        return (
+                          <td
+                            key={idx}
+                            className={`h-auto w-auto border-collapse border-b-2 border-kHeadTable px-2 py-3 text-center xl:px-4 text-kGrey text-[16px]`}
+                          >
+                            {Object.values(obj)[5] == "Not Assigned" ? (
+                              <button
+                                onClick={() => onAssign!(obj.id)}
+                                className="text-[12px] bg-kBlue-400 text-white rounded-full px-5 py-2 hover:bg-kBlue-300 active:bg-kBlue-200"
+                              >
+                                Assign
+                              </button>
+                            ) : (
+                              row
+                            )}
                           </td>
                         );
                       }

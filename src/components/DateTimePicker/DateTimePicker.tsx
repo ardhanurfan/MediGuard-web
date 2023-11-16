@@ -8,6 +8,7 @@ interface DateTimePickerProps {
   selectedDateTime: Date | null;
   onDateTimeChange: (date: Date | null) => void;
   showTimeSelect?: boolean;
+  required?: boolean;
 }
 
 const DateTimePicker: React.FC<DateTimePickerProps> = ({
@@ -15,6 +16,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
   selectedDateTime,
   onDateTimeChange,
   showTimeSelect,
+  required = false,
 }) => {
   return (
     <div className="mb-4">
@@ -26,6 +28,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
       </label>
       <div className="relative">
         <DatePicker
+          required={required}
           wrapperClassName="w-full"
           id="datetimepicker"
           selected={selectedDateTime}

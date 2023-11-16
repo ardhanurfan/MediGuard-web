@@ -1,67 +1,65 @@
-import React, { useState } from "react";
-import { AiFillCaretDown } from "react-icons/ai";
+import Select from "react-select";
 
-interface Option {
-  label: string;
-  value: string;
-}
-
-interface DropdownProps {
-  label: string;
-  options: Option[];
-  selectedOption: Option;
-  onSelect: (option: Option) => void;
-}
-
-const Dropdown: React.FC<DropdownProps> = ({
+function Dropdown({
   label,
   options,
-  selectedOption,
-  onSelect,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleToggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleSelectOption = (option: Option) => {
-    onSelect(option);
-    setIsOpen(false);
-  };
-
+  onChange,
+  value,
+  isLabel = false,
+}: {
+  label: string;
+  options: { label: string; value: string }[];
+  onChange?: (selectedOption: { label: string; value: string } | null) => void;
+  value?: { label: string; value: string } | null;
+  isLabel?: boolean;
+}) {
   return (
-    <div className="mb-4">
-      <label
-        htmlFor={label}
-        className="block text-kGrey text-sm font-medium mb-1"
-      >
-        {label}
-      </label>
-      <div className="relative">
-        <div
-          onClick={handleToggleDropdown}
-          className="w-full p-3 border border-kGrey rounded-xl flex items-center justify-between cursor-pointer focus:outline-kBlue-300"
+    <div className="relative">
+      {isLabel && (
+        <label
+          htmlFor={label}
+          className="block text-kGrey text-sm font-medium mb-1"
         >
-          <span>{selectedOption.label}</span>
-          <AiFillCaretDown className="text-gray-500 text-2xl" />
-        </div>
-        {isOpen && (
-          <div className="absolute top-full left-0 mt-2 w-full border border-kGrey rounded-b-xl bg-white shadow-md">
-            {options.map((option) => (
-              <div
-                key={option.value}
-                onClick={() => handleSelectOption(option)}
-                className="p-3 cursor-pointer hover:bg-kBlue-100"
-              >
-                {option.label}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+          {label}
+        </label>
+      )}
+      <Select
+        options={options}
+        onChange={onChange}
+        value={value}
+        className="basic-single rounded-lg w-full"
+        placeholder={`Select ${label}`}
+        theme={(theme) => ({
+          ...theme,
+          borderRadius: 0,
+          border: "2px",
+          colors: {
+            ...theme.colors,
+            primary: "#015AAB",
+          },
+        })}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            borderRadius: "12px",
+            paddingLeft: "8px",
+            paddingTop: "4px",
+            paddingBottom: "4px",
+            border: state.isFocused ? "" : "2px solid #A8A8A8",
+            "&:hover": {
+              borderColor: state.isFocused ? "" : "#015AAB",
+            },
+          }),
+          placeholder: (base) => ({
+            ...base,
+            fontSize: "16px",
+            color: "#A8A8A8",
+            fontWeight: 400,
+          }),
+        }}
+      />
     </div>
   );
-};
+}
 
 export default Dropdown;
