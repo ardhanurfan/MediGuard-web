@@ -40,6 +40,9 @@ function SideBar() {
       case "/conveyance":
         setCurrIndex(2);
         break;
+      case "/map":
+        setCurrIndex(3);
+        break;
       default:
         setCurrIndex(0);
         break;
@@ -130,7 +133,12 @@ function SideBar() {
           >
             <FaShippingFast />
           </SideBarMenu>
-          <SideBarMenu title={"Maps"} to={"/"} index={3} currIndex={currIndex}>
+          <SideBarMenu
+            title={"Maps"}
+            to={"/map"}
+            index={3}
+            currIndex={currIndex}
+          >
             <FiMapPin />
           </SideBarMenu>
         </div>

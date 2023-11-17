@@ -19,6 +19,9 @@ function Navbar() {
       case "/conveyance":
         setTitle("Conveyance");
         break;
+      case "/map":
+        setTitle("Maps");
+        break;
       default:
         setTitle("Overview");
         break;

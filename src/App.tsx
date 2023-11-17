@@ -7,6 +7,7 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import Login from "./pages/Login/Login";
+import Map from "./pages/Map/Map";
 import NotFound from "./pages/NotFound/NotFound";
 import Overview from "./pages/Overview/Overview";
 import SideBar from "./components/SideBar/SideBar";
@@ -48,6 +49,7 @@ function Root() {
         <Route path="/" element={<Overview />} />
         <Route path="/task-list" element={<TaskList />} />
         <Route path="/conveyance" element={<Conveyance />} />
+        <Route path="/map" element={<Map />} />
       </Route>
     </Routes>
   );
