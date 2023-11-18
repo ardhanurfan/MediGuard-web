@@ -13,11 +13,11 @@ function Navbar() {
       case "/":
         setTitle("Overview");
         break;
-      case "/task-list":
-        setTitle("Task List");
+      case "/transaction":
+        setTitle("Transaction");
         break;
-      case "/conveyance":
-        setTitle("Conveyance");
+      case "/mediguard":
+        setTitle("MediGuard");
         break;
       case "/map":
         setTitle("Maps");

@@ -14,7 +14,7 @@ function Dropdown({
   isLabel?: boolean;
 }) {
   return (
-    <div className="relative">
+    <div className="relative mb-4">
       {isLabel && (
         <label
           htmlFor={label}

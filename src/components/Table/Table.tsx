@@ -15,7 +15,7 @@ function Table({
   onEdit?: (x: number) => void | undefined;
   onAssign?: (x: number) => void | undefined;
   isEdit?: boolean;
-  type: "active" | "task" | "conveyance";
+  type: "active" | "transaction" | "mediguard";
 }) {
   const Load = () => {
     const dummy = [1, 2, 3, 4, 5];
@@ -59,7 +59,7 @@ function Table({
                 return (
                   <th
                     key={idx}
-                    className="h-auto w-auto border-collapse bg-kHeadTable px-2 py-1 text-center font-medium xl:px-4 text-[14px] text-kGrey"
+                    className="h-auto w-auto border-collapse bg-kHeadTable px-2 py-1 text-center font-medium xl:px-4 text-[12px] text-kGrey"
                   >
                     {row}
                   </th>
@@ -94,7 +94,7 @@ function Table({
                         return (
                           <td
                             key={idx}
-                            className="h-auto w-auto border-collapse border-b-2 border-kHeadTable px-2 py-3 text-center xl:px-4 text-kBlue-400 text-[16px] font-semibold"
+                            className="h-auto w-auto border-collapse border-b-2 border-kHeadTable px-2 py-3 text-center xl:px-4 text-kBlue-400 text-[12px] font-semibold"
                           >
                             {row}
                           </td>
@@ -113,7 +113,7 @@ function Table({
                                   : row == "Paused"
                                   ? "text-kYellow"
                                   : "text-kRed"
-                                : type == "task"
+                                : type == "transaction"
                                 ? row == "Assigned"
                                   ? "text-kGreen-200"
                                   : row == "On Check"
@@ -122,7 +122,7 @@ function Table({
                                 : row == "Safe"
                                 ? "text-kGreen-200"
                                 : "text-kRed"
-                            } text-[16px] font-semibold`}
+                            } text-[12px] font-semibold`}
                           >
                             {row}
                           </td>
@@ -135,9 +135,9 @@ function Table({
                         return (
                           <td
                             key={idx}
-                            className={`h-auto w-auto border-collapse border-b-2 border-kHeadTable px-2 py-3 text-center xl:px-4 text-kGrey text-[16px]`}
+                            className={`h-auto w-auto border-collapse border-b-2 border-kHeadTable px-2 py-3 text-center xl:px-4 text-kGrey text-[12px]`}
                           >
-                            {Object.values(obj)[5] == "Not Assigned" ? (
+                            {Object.values(obj)[7] == "Not Assigned" ? (
                               <button
                                 onClick={() => onAssign!(obj.id)}
                                 className="text-[12px] bg-kBlue-400 text-white rounded-full px-5 py-2 hover:bg-kBlue-300 active:bg-kBlue-200"
@@ -153,7 +153,7 @@ function Table({
                       return (
                         <td
                           key={idx}
-                          className="h-auto w-auto border-collapse border-b-2 border-kHeadTable px-2 py-3 text-center xl:px-4 text-kGrey text-[16px]"
+                          className="h-auto w-auto border-collapse border-b-2 border-kHeadTable px-2 py-3 text-center xl:px-4 text-kGrey text-[12px]"
                         >
                           {row}
                         </td>

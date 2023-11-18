@@ -34,10 +34,10 @@ function SideBar() {
       case "/":
         setCurrIndex(0);
         break;
-      case "/task-list":
+      case "/transaction":
         setCurrIndex(1);
         break;
-      case "/conveyance":
+      case "/mediguard":
         setCurrIndex(2);
         break;
       case "/map":
@@ -115,8 +115,8 @@ function SideBar() {
             To-be Distributed
           </p>
           <SideBarMenu
-            title={"List Tasks"}
-            to={"/task-list"}
+            title={"Transaction"}
+            to={"/transaction"}
             index={1}
             currIndex={currIndex}
           >
@@ -126,8 +126,8 @@ function SideBar() {
             Distribution Monitoring
           </p>
           <SideBarMenu
-            title={"Conveyance"}
-            to={"/conveyance"}
+            title={"MediGuard"}
+            to={"/mediguard"}
             index={2}
             currIndex={currIndex}
           >

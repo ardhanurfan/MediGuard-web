@@ -12,11 +12,11 @@ import NotFound from "./pages/NotFound/NotFound";
 import Overview from "./pages/Overview/Overview";
 import SideBar from "./components/SideBar/SideBar";
 import Navbar from "./components/Navbar/Navbar";
-import TaskList from "./pages/TaskList/TaskList";
-import Conveyance from "./pages/Conveyance/Conveyance";
 import Register from "./pages/Register/Register";
 import Cookies from "js-cookie";
 import UserProvider from "./context/UserContext";
+import Transaction from "./pages/Transaction/Transaction";
+import MediGuard from "./pages/MediGuard/MediGuard";
 
 const router = createBrowserRouter([{ path: "*", Component: Root }]);
 const ProtectedRoute = () => {
@@ -47,8 +47,8 @@ function Root() {
       <Route path="*" element={<NotFound />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Overview />} />
-        <Route path="/task-list" element={<TaskList />} />
-        <Route path="/conveyance" element={<Conveyance />} />
+        <Route path="/transaction" element={<Transaction />} />
+        <Route path="/mediguard" element={<MediGuard />} />
         <Route path="/map" element={<Map />} />
       </Route>
     </Routes>
