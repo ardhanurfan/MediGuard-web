@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-const url = "http://localhost:3000/api/";
+const url = import.meta.env.VITE_API_URL;
 
 export const post = async (
   api: string,
@@ -51,6 +51,7 @@ export const getWithAuth = async (
   token: string,
   apiParams: string
 ): Promise<AxiosResponse<any, any>> => {
+  console.log(url);
   return await axios.get(url + apiParams, {
     headers: {
       Accept: "application/json",

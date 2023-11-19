@@ -1,4 +1,4 @@
-const apiKey = "AIzaSyDuTisit6x-u0A11_YhB6v05CFFQEmPjsk";
+const apiKey = import.meta.env.VITE_GOOGLE_MAP_KEY;
 
 import React, { useState } from "react";
 import {
