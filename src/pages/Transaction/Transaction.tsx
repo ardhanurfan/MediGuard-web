@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import { toastError } from "../../components/Toast/Toast";
 import { getWithAuth } from "../../api/api";
 import moment from "moment";
+import Paginate from "../../components/Paginate/Paginate";
 
 interface Transaction {
   _id: string;
@@ -82,6 +83,12 @@ function Transaction() {
   useEffect(() => {
     getTransactions();
   }, []);
+
+  /* Pagination */
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * 10;
+  const indexOfFirstItem = indexOfLastItem - 10;
+  const currentItems = transactions.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
@@ -190,15 +197,15 @@ function Transaction() {
       <div className="min-h-screen w-full bg-kBlue-100 xl:pl-[240px] pt-16 pl-0">
         <div className="w-full xl:p-6 p-3">
           <div className="w-full bg-white rounded-xl p-6">
-            <div className="mb-6 flex justify-end">
+            {/* <div className="mb-6 flex justify-end">
               <Button
                 text={"Add Task"}
                 type={"button"}
                 onClick={() => setShowPopUpAdd(true)}
               />
-            </div>
+            </div> */}
             <Table
-              data={transactions}
+              data={currentItems}
               column={[
                 "Transaction Code",
                 "Transport Type",
@@ -219,6 +226,13 @@ function Transaction() {
                 // setTransactionId(x);
                 setShowPopUpAssign(true);
               }}
+              isEdit={false}
+            />
+            <Paginate
+              totalPages={Math.ceil(transactions.length / 10)}
+              totalData={transactions.length}
+              dataLimit={10}
+              current={(curr: number) => setCurrentPage(curr)}
             />
           </div>
         </div>

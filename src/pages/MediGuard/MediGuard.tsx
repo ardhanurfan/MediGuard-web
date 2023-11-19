@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { toastError } from "../../components/Toast/Toast";
 import PopUp from "../../components/PopUp/PopUp";
 import Table from "../../components/Table/Table";
+import useSocket from "../../api/socket";
 
 interface ProductDetail {
   _id: string;
@@ -53,7 +54,38 @@ interface Unit {
 }
 
 function MediGuard() {
-  const [detailProduct, setDetailProduct] = useState<ProductDetail[]>([]);
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("connect", () => {
+        console.log("Connected to server");
+      });
+
+      // Mendengarkan event 'message' dari server
+      socket.on("dataUnits", (data) => {
+        console.log("Received message:", data);
+        var dataUnit = data as Unit[];
+        setMediGuards(dataUnit);
+      });
+
+      socket.on("disconnect", () => {
+        console.log("Disconnected from server");
+      });
+    }
+
+    // Membersihkan listener saat komponen di-unmount
+    return () => {
+      if (socket) {
+        socket.off("dataUnits");
+      }
+    };
+  }, [socket]);
+
+  const [detailProduct, setDetailProduct] = useState<{
+    orderNum: number;
+    products: ProductDetail[];
+  }>();
 
   const [showDetailTransaction, setShowDetailTransaction] = useState<
     string | null
@@ -85,8 +117,11 @@ function MediGuard() {
         visible={showDetailProduct}
         onClose={() => setShowDetailProduct(false)}
       >
+        <h1 className="text-[32px] font-semibold text-kBlue-400 mb-8">
+          {detailProduct?.orderNum + " Details"}
+        </h1>
         <Table
-          data={detailProduct}
+          data={detailProduct?.products}
           column={[
             "prod_code",
             "hna",
@@ -179,6 +214,14 @@ function MediGuard() {
                           <div className="w-[15%]">Detail</div>
                         </div>
                         {data.transactionUnits.map((transaction) => {
+                          var isDone =
+                            data.transactionUnits.findIndex(
+                              (item) =>
+                                item.orderNum === data.currentTransaction
+                            ) >
+                            data.transactionUnits.findIndex(
+                              (item) => item.orderNum === transaction.orderNum
+                            );
                           return (
                             <div
                               key={transaction.orderNum}
@@ -203,8 +246,10 @@ function MediGuard() {
                               </div>
                               <div
                                 className={`w-[15%] ${
-                                  data.temperature >
-                                  transaction.deliveryCat.maxSuhu
+                                  isDone
+                                    ? "text-kGrey"
+                                    : data.temperature >
+                                      transaction.deliveryCat.maxSuhu
                                     ? "text-kRed"
                                     : data.temperature <
                                       transaction.deliveryCat.minSuhu
@@ -212,8 +257,10 @@ function MediGuard() {
                                     : "text-kGreen-200"
                                 }`}
                               >
-                                {data.temperature >
-                                transaction.deliveryCat.maxSuhu
+                                {isDone
+                                  ? "Delivered"
+                                  : data.temperature >
+                                    transaction.deliveryCat.maxSuhu
                                   ? "Over Temperature"
                                   : data.temperature <
                                     transaction.deliveryCat.minSuhu
@@ -223,11 +270,13 @@ function MediGuard() {
                               <div className="w-[15%] flex justify-center items-center">
                                 <button
                                   onClick={() => {
-                                    setDetailProduct(
-                                      transaction.productDetails
-                                    );
+                                    var dataDetail = {
+                                      orderNum: transaction.orderNum,
+                                      products: transaction.productDetails,
+                                    };
+
+                                    setDetailProduct(dataDetail);
                                     setShowDetailProduct(true);
-                                    console.log(transaction.productDetails);
                                   }}
                                   className="text-[12px] border-2 border-kBlue-200 text-kBlue-200 font-medium rounded-lg px-5 py-1 hover:text-white hover:bg-kBlue-200 active:bg-kBlue-300"
                                 >

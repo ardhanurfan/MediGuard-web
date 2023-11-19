@@ -135,7 +135,7 @@ function Table({
                         return (
                           <td
                             key={idx}
-                            className={`h-auto w-auto border-collapse border-b-2 border-kHeadTable px-2 py-3 text-center xl:px-4 text-kGrey text-[12px]`}
+                            className={`h-auto w-auto border-collapse border-b-2 border-kHeadTable px-2 py-3 text-center xl:px-4 text-kBlue-400 text-[12px] font-bold`}
                           >
                             {Object.values(obj)[7] == "Not Assigned" ? (
                               <button

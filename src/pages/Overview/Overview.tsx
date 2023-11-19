@@ -3,8 +3,96 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import GaugeComponent from "react-gauge-component";
 import Table from "../../components/Table/Table";
 import Button from "../../components/Button/Button";
+import useSocket from "../../api/socket";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { getWithAuth } from "../../api/api";
+import { toastError } from "../../components/Toast/Toast";
+
+interface Unit {
+  orderNum: number[];
+  _id: string;
+  unitId: string;
+  type: string;
+  batteryCapacity: number;
+  currentState: boolean;
+  lockState: boolean;
+  temperature: number;
+  longitude: number;
+  latitude: number;
+  humidity: number;
+}
 
 function Overview() {
+  const token = Cookies.get("token_mediguard");
+  const socket = useSocket();
+  const [average, setAverage] = useState<{
+    temperature: number;
+    humidity: number;
+  }>({ temperature: 0, humidity: 0 });
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("connect", () => {
+        console.log("Connected to server");
+      });
+
+      // Mendengarkan event 'message' dari server
+      socket.on("dataUnits", (data) => {
+        console.log("Received message:", data);
+        var dataUnit = data as Unit[];
+        var tot_humidity = 0;
+        var tot_temperature = 0;
+        dataUnit.forEach((unit: Unit) => {
+          tot_temperature += unit.temperature;
+          tot_humidity += unit.humidity;
+        });
+        setAverage({
+          temperature: tot_temperature / dataUnit.length,
+          humidity: tot_humidity / dataUnit.length,
+        });
+      });
+
+      socket.on("disconnect", () => {
+        console.log("Disconnected from server");
+      });
+    }
+
+    // Membersihkan listener saat komponen di-unmount
+    return () => {
+      if (socket) {
+        socket.off("dataUnits");
+      }
+    };
+  }, [socket]);
+
+  const [mediGuards, setMediGuards] = useState<Unit[]>([]);
+  const getMediguards = async () => {
+    if (token) {
+      try {
+        const response = await getWithAuth(token, "unit/get-on-going");
+        const data = response.data?.data as Unit[];
+        setMediGuards(data);
+        var tot_humidity = 0;
+        var tot_temperature = 0;
+        data.forEach((unit: Unit) => {
+          tot_temperature += unit.temperature;
+          tot_humidity += unit.humidity;
+        });
+        setAverage({
+          temperature: tot_temperature / data.length,
+          humidity: tot_humidity / data.length,
+        });
+      } catch (error) {
+        toastError("Get MediGuards Failed");
+      }
+    }
+  };
+
+  useEffect(() => {
+    getMediguards();
+  }, []);
+
   const dataDummy = [
     {
       id: 1,
@@ -65,7 +153,7 @@ function Overview() {
               <div className="flex flex-col md:flex-row xl:gap-6 gap-3 xl:mb-6 mb-3">
                 <DistributedCard
                   title={"On Distributed"}
-                  value={256}
+                  value={mediGuards.length}
                   unit={"MediGuard"}
                 />
                 <DistributedCard
@@ -135,13 +223,13 @@ function Overview() {
                         ticks: [{ value: 25 }, { value: 50 }, { value: 75 }],
                       },
                     }}
-                    value={22.5}
+                    value={average.humidity}
                     minValue={0}
                     maxValue={100}
                   />
                   <h2 className="text-xl text-kBlue-400">Average Kelembaban</h2>
                   <h2 className="text-[40px] text-kBlue-400 font-bold">
-                    3045 %
+                    {average.humidity.toFixed(2) + "%"}
                   </h2>
                 </div>
                 <div className="w-full items-center flex flex-col text-kBlue-400 mt-8">
@@ -169,13 +257,13 @@ function Overview() {
                         ticks: [{ value: 25 }, { value: 50 }, { value: 75 }],
                       },
                     }}
-                    value={22.5}
+                    value={average.temperature}
                     minValue={0}
                     maxValue={100}
                   />
                   <h2 className="text-xl text-kBlue-400">Average Suhu</h2>
                   <h2 className="text-[40px] text-kBlue-400 font-bold">
-                    187 °C
+                    {average.temperature.toFixed(2) + "°C"}
                   </h2>
                 </div>
               </div>
