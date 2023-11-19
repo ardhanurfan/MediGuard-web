@@ -37,56 +37,9 @@ interface TransactionTable {
 }
 
 function Transaction() {
-  const dataDummy = [
-    {
-      id: 1,
-      transactionCode: "PCK000000-01",
-      transportType: "Truck",
-      branch: "JKT01",
-      packingDate: "16 August 2023 00.00",
-      deliveryDate: "16 August 2023 00.00",
-      ArrivedDate: "16 August 2023 00.00",
-      Status: "Assigned",
-      AssignedTo: "B 1992 MD",
-    },
-    {
-      id: 1,
-      transactionCode: "PCK000000-01",
-      transportType: "Truck",
-      branch: "JKT01",
-      packingDate: "16 August 2023 00.00",
-      deliveryDate: "16 August 2023 00.00",
-      ArrivedDate: "16 August 2023 00.00",
-      Status: "Assigned",
-      AssignedTo: "B 1992 MD",
-    },
-    {
-      id: 1,
-      transactionCode: "PCK000000-01",
-      transportType: "Truck",
-      branch: "JKT01",
-      packingDate: "16 August 2023 00.00",
-      deliveryDate: "16 August 2023 00.00",
-      ArrivedDate: "16 August 2023 00.00",
-      Status: "On Check",
-      AssignedTo: "B 1992 MD",
-    },
-    {
-      id: 1,
-      transactionCode: "PCK000000-01",
-      transportType: "Truck",
-      branch: "JKT01",
-      packingDate: "16 August 2023 00.00",
-      deliveryDate: "16 August 2023 00.00",
-      ArrivedDate: "16 August 2023 00.00",
-      Status: "Not Assigned",
-      AssignedTo: "B 1992 MD",
-    },
-  ];
-
   const [showPopUpAssign, setShowPopUpAssign] = useState(false);
   const [showPopUpAdd, setShowPopUpAdd] = useState(false);
-  const [transactionId, setTransactionId] = useState(0);
+  // const [transactionId, setTransactionId] = useState(0);
   const [packingDate, setPackingDate] = useState<Date | null>(null);
 
   const [transactions, setTransactions] = useState<TransactionTable[]>([]);
@@ -258,12 +211,12 @@ function Transaction() {
               ]}
               isLoading={false}
               type={"transaction"}
-              onEdit={(x: number) => {
-                setTransactionId(x);
-                setShowPopUpAdd(true);
-              }}
-              onAssign={(x: number) => {
-                setTransactionId(x);
+              // onEdit={(x: number) => {
+              //   setTransactionId(x);
+              //   setShowPopUpAdd(true);
+              // }}
+              onAssign={() => {
+                // setTransactionId(x);
                 setShowPopUpAssign(true);
               }}
             />

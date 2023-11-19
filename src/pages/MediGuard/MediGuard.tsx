@@ -3,6 +3,8 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { getWithAuth } from "../../api/api";
 import Cookies from "js-cookie";
 import { toastError } from "../../components/Toast/Toast";
+import PopUp from "../../components/PopUp/PopUp";
+import Table from "../../components/Table/Table";
 
 interface ProductDetail {
   _id: string;
@@ -56,6 +58,7 @@ function MediGuard() {
   const [showDetailTransaction, setShowDetailTransaction] = useState<
     string | null
   >(null);
+  const [showDetailProduct, setShowDetailProduct] = useState<boolean>(false);
 
   const [mediGuards, setMediGuards] = useState<Unit[]>([]);
 
@@ -78,6 +81,31 @@ function MediGuard() {
 
   return (
     <>
+      <PopUp
+        visible={showDetailProduct}
+        onClose={() => setShowDetailProduct(false)}
+      >
+        <Table
+          data={detailProduct}
+          column={[
+            "prod_code",
+            "hna",
+            "het",
+            "uom",
+            "beratGram",
+            "panjangCm",
+            "lebarCm",
+            "tinggiCm",
+            "isLifeSaving",
+            "volumeCm3",
+            "kategoriPengiriman",
+          ]}
+          isLoading={false}
+          isEdit={false}
+          type={"mediguard"}
+        />
+      </PopUp>
+
       <div className="min-h-screen w-full bg-kBlue-100 xl:pl-[240px] pt-16 pl-0">
         <div className="w-full xl:p-6 p-3">
           <div className="w-full bg-white rounded-xl p-6">
@@ -194,9 +222,13 @@ function MediGuard() {
                               </div>
                               <div className="w-[15%] flex justify-center items-center">
                                 <button
-                                  onClick={() =>
-                                    setDetailProduct(transaction.productDetails)
-                                  }
+                                  onClick={() => {
+                                    setDetailProduct(
+                                      transaction.productDetails
+                                    );
+                                    setShowDetailProduct(true);
+                                    console.log(transaction.productDetails);
+                                  }}
                                   className="text-[12px] border-2 border-kBlue-200 text-kBlue-200 font-medium rounded-lg px-5 py-1 hover:text-white hover:bg-kBlue-200 active:bg-kBlue-300"
                                 >
                                   See Detail
