@@ -7,7 +7,7 @@ function Map() {
     lng: number;
   }
 
-  const [markers, setMarkers] = useState<Marker[]>([
+  const [markers] = useState<Marker[]>([
     { lat: -6.2088, lng: 106.8456 },
     { lat: -6.2088, lng: 106.8456 },
     { lat: -6.22, lng: 106.85 },
