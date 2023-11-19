@@ -66,7 +66,6 @@ function MediGuard() {
         const response = await getWithAuth(token, "unit/get-on-going");
         const data = response.data?.data as Unit[];
         setMediGuards(data);
-        console.log(mediGuards);
       } catch (error) {
         toastError("Get MediGuards Failed");
       }

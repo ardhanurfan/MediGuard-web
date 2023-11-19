@@ -1,9 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import PopUp from "../../components/PopUp/PopUp";
 import Table from "../../components/Table/Table";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import DateTimePicker from "../../components/DateTimePicker/DateTimePicker";
+import Cookies from "js-cookie";
+import { toastError } from "../../components/Toast/Toast";
+import { getWithAuth } from "../../api/api";
+import moment from "moment";
+
+interface Transaction {
+  _id: string;
+  orderNum: number;
+  deliveryNum: number;
+  transportType: string;
+  branchCode: string;
+  ship_method_code: string;
+  cust_num: number;
+  shipped_qty: number;
+  packing_date: Date | null;
+  unitId: string | null;
+  delivery_date: Date | null;
+  arrival_date: Date | null;
+}
+
+interface TransactionTable {
+  id: string;
+  transactionCode: string;
+  transportType: string;
+  branch: string;
+  packingDate: string;
+  deliveryDate: string;
+  arrivedDate: string;
+  status: string;
+  assignedTo: string;
+}
 
 function Transaction() {
   const dataDummy = [
@@ -56,8 +87,48 @@ function Transaction() {
   const [showPopUpAssign, setShowPopUpAssign] = useState(false);
   const [showPopUpAdd, setShowPopUpAdd] = useState(false);
   const [transactionId, setTransactionId] = useState(0);
-
   const [packingDate, setPackingDate] = useState<Date | null>(null);
+
+  const [transactions, setTransactions] = useState<TransactionTable[]>([]);
+
+  const token = Cookies.get("token_mediguard");
+  const getTransactions = async () => {
+    if (token) {
+      try {
+        const response = await getWithAuth(token, "transaction/get");
+        const data = response.data?.data as Transaction[];
+        const mappedTransactions: TransactionTable[] = data.map(
+          (transaction) => ({
+            id: transaction._id,
+            transactionCode: `${transaction.orderNum}`,
+            transportType: transaction.transportType,
+            branch: transaction.branchCode,
+            packingDate:
+              moment(transaction.packing_date).format(
+                "DD MMM YYYY, HH:MM:SS"
+              ) || "N/A",
+            deliveryDate:
+              moment(transaction.delivery_date).format(
+                "DD MMM YYYY, HH:MM:SS"
+              ) || "N/A",
+            arrivedDate:
+              moment(transaction.arrival_date).format(
+                "DD MMM YYYY, HH:MM:SS"
+              ) || "N/A",
+            status: transaction.unitId ? "Assigned" : "Not Assigned",
+            assignedTo: transaction.unitId || "Unassigned",
+          })
+        );
+        setTransactions(mappedTransactions);
+      } catch (error) {
+        toastError("Get Transactions Failed");
+      }
+    }
+  };
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
 
   return (
     <>
@@ -174,7 +245,7 @@ function Transaction() {
               />
             </div>
             <Table
-              data={dataDummy}
+              data={transactions}
               column={[
                 "Transaction Code",
                 "Transport Type",
