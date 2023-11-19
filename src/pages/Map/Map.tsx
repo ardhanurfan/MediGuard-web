@@ -43,7 +43,6 @@ function Map() {
         console.log("Connected to server");
       });
 
-      // Mendengarkan event 'message' dari server
       socket.on("dataUnits", (data) => {
         console.log("Received message:", data);
         var dataUnit = data as Unit[];
