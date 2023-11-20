@@ -4,14 +4,17 @@ import { FaShippingFast } from "react-icons/fa";
 import { FiMapPin } from "react-icons/fi";
 import { FiLogOut } from "react-icons/fi";
 import { FiSettings } from "react-icons/fi";
+import { RiAccountCircleLine } from "react-icons/ri";
 import SideBarMenu from "./SideBarMenu";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useEventListener } from "usehooks-ts";
 import Cookies from "js-cookie";
 import { toastError, toastSuccess } from "../Toast/Toast";
+import { UserContext } from "../../context/UserContext";
 
 function SideBar() {
+  const { user } = useContext(UserContext);
   const location = useLocation();
   const path = location.pathname;
   const [currIndex, setCurrIndex] = useState(0);
@@ -42,6 +45,9 @@ function SideBar() {
         break;
       case "/map":
         setCurrIndex(3);
+        break;
+      case "/accounts":
+        setCurrIndex(6);
         break;
       default:
         setCurrIndex(0);
@@ -141,6 +147,22 @@ function SideBar() {
           >
             <FiMapPin />
           </SideBarMenu>
+
+          {user?.role == "superadmin" && (
+            <>
+              <p className="text-kBlue-300 mt-10 font-semibold pl-7">
+                Management
+              </p>
+              <SideBarMenu
+                title={"Accounts"}
+                to={"/accounts"}
+                index={6}
+                currIndex={currIndex}
+              >
+                <RiAccountCircleLine />
+              </SideBarMenu>
+            </>
+          )}
         </div>
         <div>
           <SideBarMenu

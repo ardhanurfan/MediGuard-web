@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { getWithAuth } from "../../api/api";
 import { toastError } from "../../components/Toast/Toast";
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 interface Unit {
   orderNum: number[];
@@ -23,7 +25,33 @@ interface Unit {
   humidity: number;
 }
 
+interface Transaction {
+  _id: string;
+  staffId: string;
+  orderNum: number;
+  deliveryNum: number;
+  transportType: string;
+  branchCode: string;
+  ship_method_code: string;
+  cust_num: number;
+  prod_code: string[];
+  shipped_qty: number;
+  unitId: string;
+  packing_date: string;
+  delivery_date: string;
+  arrival_date: string;
+}
+
+interface TransactionTable {
+  id: string;
+  transactionCode: string;
+  packingDate: string;
+  status: string;
+  assignedTo: string;
+}
+
 function Overview() {
+  const navigate = useNavigate();
   const token = Cookies.get("token_mediguard");
   const socket = useSocket();
   const [average, setAverage] = useState<{
@@ -41,6 +69,7 @@ function Overview() {
       socket.on("dataUnits", (data) => {
         console.log("Received message:", data);
         var dataUnit = data as Unit[];
+        setMediGuards(data);
         var tot_humidity = 0;
         var tot_temperature = 0;
         dataUnit.forEach((unit: Unit) => {
@@ -93,57 +122,34 @@ function Overview() {
     getMediguards();
   }, []);
 
-  const dataDummy = [
-    {
-      id: 1,
-      Name: "PCK000000-01",
-      TransportCode: "B 1992 MD",
-      DeaprtureTime: "16 August 2023",
-      Status: "On Going",
-      Amount: 1234,
-    },
-    {
-      id: 1,
-      Name: "PCK000000-01",
-      TransportCode: "B 1992 MD",
-      DeaprtureTime: "16 August 2023",
-      Status: "On Going",
-      Amount: 1234,
-    },
-    {
-      id: 1,
-      Name: "PCK000000-01",
-      TransportCode: "B 1992 MD",
-      DeaprtureTime: "16 August 2023",
-      Status: "On Stop",
-      Amount: 1234,
-    },
-    {
-      id: 1,
-      Name: "PCK000000-01",
-      TransportCode: "B 1992 MD",
-      DeaprtureTime: "16 August 2023",
-      Status: "On Stop",
-      Amount: 1234,
-    },
-    {
-      id: 1,
-      Name: "PCK000000-01",
-      TransportCode: "B 1992 MD",
-      DeaprtureTime: "16 August 2023",
-      Status: "Paused",
-      Amount: 1234,
-    },
-    {
-      id: 1,
-      Name: "PCK000000-01",
-      TransportCode: "B 1992 MD",
-      DeaprtureTime: "16 August 2023",
-      Status: "Paused",
-      Amount: 1234,
-    },
-  ];
+  const [transactions, setTransactions] = useState<TransactionTable[]>([]);
 
+  const getTransactions = async () => {
+    if (token) {
+      try {
+        const response = await getWithAuth(token, "transaction/get");
+        const data = response.data?.data as Transaction[];
+        const mappedTransactions: TransactionTable[] = data.map(
+          (transaction) => ({
+            id: transaction._id,
+            transactionCode: `${transaction.orderNum}`,
+            packingDate: transaction.packing_date
+              ? moment(transaction.packing_date).format("DD MMM YYYY, HH:MM:SS")
+              : "",
+            status: transaction.unitId ? "Assigned" : "Not Assigned",
+            assignedTo: transaction.unitId || "Unassigned",
+          })
+        );
+        setTransactions(mappedTransactions);
+      } catch (error) {
+        toastError("Get Transactions Failed");
+      }
+    }
+  };
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
   return (
     <>
       <div className="min-h-screen w-full bg-kBlue-100 xl:pl-[240px] pt-16 pl-0">
@@ -158,25 +164,29 @@ function Overview() {
                 />
                 <DistributedCard
                   title={"To-be Distributed"}
-                  value={145}
+                  value={transactions.length}
                   unit={"Packs"}
                 />
               </div>
               <div className="w-full bg-white rounded-xl p-6">
                 <Table
-                  data={dataDummy}
+                  isEdit
+                  data={transactions.slice(0, 10)}
                   column={[
-                    "Name",
                     "Transport Code",
-                    "Departure Time",
+                    "Packing Date",
                     "Status",
-                    "Amount",
+                    "Assign To",
                   ]}
                   isLoading={false}
-                  type={"active"}
+                  type={"transaction"}
                 />
                 <div className="flex justify-end mt-8">
-                  <Button text={"See All"} type={undefined} />
+                  <Button
+                    text={"See All"}
+                    type={"button"}
+                    onClick={() => navigate("/transaction")}
+                  />
                 </div>
               </div>
             </div>

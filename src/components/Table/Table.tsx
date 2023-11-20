@@ -13,7 +13,7 @@ function Table({
   column: any;
   isLoading: boolean;
   onEdit?: (x: number) => void | undefined;
-  onAssign?: (x: number) => void | undefined;
+  onAssign?: (x: string) => void | undefined;
   isEdit?: boolean;
   type: "active" | "transaction" | "mediguard";
 }) {

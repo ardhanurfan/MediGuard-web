@@ -38,7 +38,7 @@ interface TransactionUnit {
   productDetails: ProductDetail[];
   address: Address;
   distance: number | null;
-  timeEstimation: number | null;
+  duration: number | null;
   deliveryCat: DeliveryCat;
 }
 
@@ -121,7 +121,20 @@ function MediGuard() {
           {detailProduct?.orderNum + " Details"}
         </h1>
         <Table
-          data={detailProduct?.products}
+          data={detailProduct?.products.map((val: ProductDetail) => ({
+            id: val._id,
+            prod_code: val.prod_code,
+            hna: val.hna,
+            het: val.het,
+            uom: val.uom,
+            berat: val.beratGram,
+            panjang: val.panjangCm,
+            lebar: val.lebarCm,
+            tinggi: val.tinggiCm,
+            isLifeSaving: val.isLifeSaving ? "True" : "False",
+            volume: val.volumeCm3,
+            kategori: val.kategoriPengiriman,
+          }))}
           column={[
             "prod_code",
             "hna",
@@ -242,7 +255,7 @@ function MediGuard() {
                                 {transaction.distance}
                               </div>
                               <div className="w-[15%]">
-                                {transaction.timeEstimation}
+                                {transaction.duration}
                               </div>
                               <div
                                 className={`w-[15%] ${
