@@ -140,15 +140,15 @@ function Transaction() {
             transportType: transaction.transportType,
             branch: transaction.branchCode,
             packingDate: transaction.packing_date
-              ? moment(transaction.packing_date).format("DD MMM YYYY, HH:MM:SS")
+              ? moment(transaction.packing_date).format("DD MMM YYYY, HH:mm:ss")
               : "",
             deliveryDate: transaction.delivery_date
               ? moment(transaction.delivery_date).format(
-                  "DD MMM YYYY, HH:MM:SS"
+                  "DD MMM YYYY, HH:mm:ss"
                 )
               : "",
             arrivedDate: transaction.arrival_date
-              ? moment(transaction.arrival_date).format("DD MMM YYYY, HH:MM:SS")
+              ? moment(transaction.arrival_date).format("DD MMM YYYY, HH:mm:ss")
               : "",
             status: transaction.unitId ? "Assigned" : "Not Assigned",
             assignedTo: transaction.unitId || "Unassigned",
@@ -201,15 +201,15 @@ function Transaction() {
             transportType: transaction.transportType,
             branch: transaction.branchCode,
             packingDate: transaction.packing_date
-              ? moment(transaction.packing_date).format("DD MMM YYYY, HH:MM:SS")
+              ? moment(transaction.packing_date).format("DD MMM YYYY, HH:mm:ss")
               : "",
             deliveryDate: transaction.delivery_date
               ? moment(transaction.delivery_date).format(
-                  "DD MMM YYYY, HH:MM:SS"
+                  "DD MMM YYYY, HH:mm:ss"
                 )
               : "",
             arrivedDate: transaction.arrival_date
-              ? moment(transaction.arrival_date).format("DD MMM YYYY, HH:MM:SS")
+              ? moment(transaction.arrival_date).format("DD MMM YYYY, HH:mm:ss")
               : "",
             status: transaction.unitId ? "Assigned" : "Not Assigned",
             assignedTo: transaction.unitId || "Unassigned",
