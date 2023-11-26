@@ -170,7 +170,7 @@ function Overview() {
               </div>
               <div className="w-full bg-white rounded-xl p-6">
                 <Table
-                  isEdit
+                  isEdit={false}
                   data={transactions.slice(0, 10)}
                   column={[
                     "Transport Code",
