@@ -6,6 +6,10 @@
   <img src="public/cover.png" width=600>
 </p>
 
+<p align="center">
+  <img src="public/solution.png" width=600>
+</p>
+
 <hr>
 
 ## Links
